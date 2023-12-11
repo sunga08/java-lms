@@ -19,6 +19,11 @@ public class Payment {
     public Payment() {
     }
 
+    // 유료결제용
+    // isEqualPaidFee
+
+    // 무료결제용
+
     public Payment(String id, Long sessionId, Long nsUserId, Long amount) {
         this.id = id;
         this.sessionId = sessionId;

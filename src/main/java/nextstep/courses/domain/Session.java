@@ -28,6 +28,10 @@ public class Session {
 
     private List<NsUser> students = new ArrayList<>();
 
+    private List<Payment> payments = new ArrayList<>();
+
+    private Enrollment enrollment;
+
     private Long fee;
 
     private LocalDate startDate;
@@ -58,6 +62,18 @@ public class Session {
         this(id, null,null, sessionState, null, imageInfo, null, startDate, endDate);
     }
 
+    private Session(long id, SessionType sessionType, SessionState sessionState, Long fee, Integer maxPersonnel) {
+        this(id, null, sessionType, sessionState, maxPersonnel, null, fee, LocalDate.now().plusDays(3), LocalDate.now().plusDays(15));
+    }
+
+//    public static Session paidSession(long id, SessionType sessionType, SessionState sessionState, Integer maxPersonnel) {
+//        return new Session(id, sessionType, sessionState, 10000L, maxPersonnel);
+//    }
+//
+//    public static Session freeSession(long id, SessionType sessionType, SessionState sessionState) {
+//        return new Session(id, sessionType, sessionState, null, null);
+//    }
+
     public static Session recruitingPaidSession(long id, SessionType sessionType, SessionState sessionState, Integer maxPersonnel, Long fee) {
         return new Session(id, sessionType, sessionState, maxPersonnel, fee, LocalDate.now().plusDays(3), LocalDate.now().plusDays(15));
     }
@@ -66,14 +82,20 @@ public class Session {
         return new Session(id, sessionType, sessionState, maxPersonnel, students, enrollCount, LocalDate.now().plusDays(3), LocalDate.now().plusDays(15));
     }
 
+//    public Session(long id, SessionType sessionType, SessionState sessionState, Integer maxPersonnel, int enrollCount) {
+//        this(id, sessionType, sessionState, maxPersonnel, null, LocalDate.now().plusDays(3), LocalDate.now().plusDays(15));
+//    }
+
     public Session(long id, String title, SessionType sessionType, SessionState sessionState, Integer maxPersonnel, ImageInfo imageInfo, Long fee, LocalDate startDate, LocalDate endDate) {
 
         checkSessionStatus(sessionState, startDate, endDate);
 
         this.id = id;
+        this.title = title;
         this.sessionType = sessionType;
         this.sessionState = sessionState;
         this.maxPersonnel = maxPersonnel;
+        this.enrollment = new Enrollment(maxPersonnel, new ArrayList<>());
         this.fee = fee;
         this.coverImage = imageInfo;
         this.startDate = startDate;
@@ -89,22 +111,29 @@ public class Session {
         }
     }
 
-    public void enrollStudent(NsUser student, Payment payment) {
-        if(sessionType == SessionType.PAID && enrollCount >= maxPersonnel) {
-            throw new SessionException("최대 수강 인원을 초과하였습니다.");
-        }
+    public void enroll(NsUser student, Payment payment) {
 
         if(!SessionState.isAbleToEnroll(sessionState)) {
             throw new SessionException("모집중인 강의가 아닙니다.");
         }
 
+        if(sessionType == SessionType.PAID) {
+            enrollPaidSession(student, payment);
+        }
+        else {
+            enrollment.enrollFreeSession(student);
+        }
+
+        enrollCount++;
+    }
+
+    private void enrollPaidSession(NsUser student, Payment payment) {
         if(payment != null && !payment.isEqualPaidFee(fee)) {
             throw new PaymentException("수강료가 지불한 금액과 일치하지 않습니다.");
         }
-
-        students.add(student);
-        enrollCount++;
+        enrollment.enrollPaidSession(student);
     }
+
 
     public int getEnrollCount() {
         return enrollCount;
