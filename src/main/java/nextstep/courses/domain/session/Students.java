@@ -15,7 +15,7 @@ public class Students {
     }
 
     public void isOverCapacity(int capacity) {
-        if(students.size() >= capacity) {
+        if(students.size() > capacity) {
             throw new SessionException("최대 수강 인원을 초과하였습니다.");
         }
     }

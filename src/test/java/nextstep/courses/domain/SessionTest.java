@@ -33,10 +33,9 @@ class SessionTest {
     @DisplayName("모집중인 유료강의에 수강신청 시 최대 수강 인원을 초과하면 예외가 발생한다.")
     void 유료강의_수강신청() {
         Students students = new Students(new ArrayList<>(List.of(new NsUser(), new NsUser(), new NsUser())));
-        Enrollment enrollment = new Enrollment(students, 3);
-        Session session = Session.recruitingSessionWithType(0L, SessionType.PAID, enrollment);
+        Session session = Session.recruitingPaidSession(0L, SessionType.PAID, new Enrollment(students, 3), 10000L);
 
-        assertThatThrownBy(() -> session.enrollStudent(NsUserTest.JAVAJIGI, null))
+        assertThatThrownBy(() -> session.enrollStudent(NsUserTest.JAVAJIGI, new Payment("ID", 0L, 0L, 10000L)))
                 .isInstanceOf(SessionException.class);
     }
 
@@ -71,7 +70,7 @@ class SessionTest {
     @Test
     @DisplayName("강의 생성시 이미지 형식 제한에 맞는 강의 커버 이미지 정보를 가진다.")
     void 이미지_형식_제한에_맞는_강의_커버_이미지() {
-        ImageInfo imageInfo = new ImageInfo("JPG", 0.5, 300, 200);
+        ImageInfo imageInfo = new ImageInfo(ImageType.isSupportImageType("JPG"), new ImageFileSize(0.5), new ImageSize(300, 200));
         assertThatCode(() -> Session.sessionWithImage(0L, imageInfo))
                 .doesNotThrowAnyException();
     }

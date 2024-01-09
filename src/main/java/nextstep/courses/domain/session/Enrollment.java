@@ -11,7 +11,7 @@ public class Enrollment {
 
     public Enrollment(Students students, Integer capacity) {
         this.students = students;
-        if(capacity != null) {
+        if(students != null && capacity != null) {
             students.isOverCapacity(capacity);
         }
         this.capacity = capacity;
@@ -19,6 +19,9 @@ public class Enrollment {
 
     public void enroll(NsUser student) {
         students.addStudent(student);
+        if(capacity != null) {
+            students.isOverCapacity(capacity);
+        }
     }
 
     @Override

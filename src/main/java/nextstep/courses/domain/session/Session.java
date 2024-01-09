@@ -70,7 +70,6 @@ public class Session {
         sessionPeriod.checkAbleToEnroll();
 
         if(sessionType == SessionType.PAID){
-            //enrollment.isOverCapacity(capacity);
             payment.isAbleToPayment(fee);
         }
 
