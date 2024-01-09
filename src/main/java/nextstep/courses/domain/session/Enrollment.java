@@ -7,17 +7,18 @@ import java.util.Objects;
 public class Enrollment {
 
     private Students students;
+    private Integer capacity;
 
-    public Enrollment(Students students) {
+    public Enrollment(Students students, Integer capacity) {
         this.students = students;
+        if(capacity != null) {
+            students.isOverCapacity(capacity);
+        }
+        this.capacity = capacity;
     }
 
     public void enroll(NsUser student) {
         students.addStudent(student);
-    }
-
-    public void isOverCapacity(int capacity) {
-        students.isOverCapacity(capacity);
     }
 
     @Override
