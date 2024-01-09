@@ -11,11 +11,13 @@ public enum ImageType {
     PNG,
     SVG;
 
-    public static void isSupportImageType(String imageType) {
+    public static ImageType isSupportImageType(String imageType) {
         stream(ImageType.values())
                 .filter(i -> i.name().equals(imageType.toUpperCase()))
                 .findAny()
                 .orElseThrow(() -> new ImageException("지원하는 이미지 형식이 아닙니다."));
+
+        return ImageType.valueOf(imageType.toUpperCase());
     }
 
 }
