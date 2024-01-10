@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Enrollment {
 
-    private Students students;
+    private final Students students;
     private Integer capacity;
 
     public Enrollment(Students students, Integer capacity) {

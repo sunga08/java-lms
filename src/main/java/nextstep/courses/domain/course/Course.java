@@ -30,11 +30,7 @@ public class Course {
     }
 
     public Course(Long id, String title, Long creatorId, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.title = title;
-        this.creatorId = creatorId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this(id, title, 1, null, creatorId, createdAt, updatedAt);
     }
 
     public Course(Long id, String title, int generation, Sessions sessions, Long creatorId, LocalDateTime createdAt, LocalDateTime updatedAt) {

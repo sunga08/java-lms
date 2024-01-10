@@ -15,18 +15,14 @@ public class SessionPeriod {
     private SessionState sessionState;
 
     public SessionPeriod(LocalDate startDate, LocalDate endDate, SessionState sessionState) {
-        this(startDate, endDate);
-
-        checkSessionStatus(sessionState);
-        this.sessionState = sessionState;
-    }
-
-    public SessionPeriod(LocalDate startDate, LocalDate endDate) {
         if(!endDate.isAfter(startDate)) {
             throw new SessionPeriodException("종료일이 시작일보다 이전일 수 없습니다.");
         }
         this.startDate = startDate;
         this.endDate = endDate;
+
+        checkSessionStatus(sessionState);
+        this.sessionState = sessionState;
     }
 
     private void checkSessionStatus(SessionState sessionState) {

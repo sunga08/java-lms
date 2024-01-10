@@ -2,13 +2,12 @@ package nextstep.courses.domain.session;
 
 import nextstep.courses.domain.course.Course;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Sessions {
 
-    private List<Session> sessions = new ArrayList<>();
+    private final List<Session> sessions;
 
     public Sessions(List<Session> sessions) {
         this.sessions = sessions;
