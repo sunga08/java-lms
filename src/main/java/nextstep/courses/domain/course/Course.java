@@ -43,13 +43,15 @@ public class Course {
         this.updatedAt = updatedAt;
     }
 
-    public void addSessions(List<Session> sessions) {
-        this.sessions.addSessions(sessions, this);
+    public void addSession(Session session) {
+        this.sessions.addSession(session);
     }
 
     public String getTitle() {
         return title;
     }
+
+    public Sessions getSessions() { return sessions; }
 
     public Long getCreatorId() {
         return creatorId;

@@ -13,11 +13,8 @@ public class Sessions {
         this.sessions = sessions;
     }
 
-    public void addSessions(List<Session> sessions, Course course) {
-        this.sessions.addAll(sessions);
-        for(Session session : this.sessions) {
-            session.addCourse(course);
-        }
+    public void addSession(Session session) {
+        this.sessions.add(session);
     }
 
     @Override
